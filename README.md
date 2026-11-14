@@ -45,3 +45,39 @@ Dùng cùng dữ liệu, model và câu hỏi cho cả ba cấu hình. Tách **1
 | Cách nộp bài | [SUBMISSION.md](SUBMISSION.md) |
 
 [data/format-example.json](data/format-example.json) chỉ minh họa định dạng, không phải corpus đủ điều kiện. Phần xử lý và benchmark do bạn tự hiện thực; không bắt buộc xây chatbot.
+
+---
+
+## Bài làm — Trần Hữu Tài (2A202603944)
+
+| Thành phần | Đường dẫn |
+|---|---|
+| Corpus + manifest | `data/AI-SPEIS_Report1_Vision & Scope Document_v1.3.docx`, [data/MANIFEST.md](data/MANIFEST.md) |
+| Benchmark (20 câu, 15 dev / 5 test) | [benchmark/benchmark.jsonl](benchmark/benchmark.jsonl) (bản pipeline dùng: `starter/data/benchmark.jsonl`) |
+| Code pipeline | `starter/src/` (ingestion, chunking, embeddings, store, evaluation, run), `starter/scripts/` |
+| Kết quả, trace, nhãn audit | `starter/results/` (`run_summary.json`, `trace.jsonl`, `audit_*.md`, `ingestion_log.json`) |
+| Nhật ký thí nghiệm | [artifacts/experiment_log.csv](artifacts/experiment_log.csv) |
+| Báo cáo | [report/individual/2A202603944_TranHuuTai.md](report/individual/2A202603944_TranHuuTai.md) |
+
+### Cách chạy
+
+Yêu cầu: Docker, Python 3.11+, API key Gemini (free tier đủ dùng).
+
+```powershell
+cd starter
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+pip install google-genai python-docx numpy
+Copy-Item .env.example .env   # điền GEMINI_API_KEY; giữ DATABASE_URL mặc định
+docker compose -p day6_student_starter up -d --wait
+python scripts/check_setup.py          # Setup OK
+
+python -m src.ingestion                # docx -> results/units.jsonl (31 đơn vị) + ingestion_log.json
+python scripts/check_benchmark.py      # kiểm chứng evidence/filter: lỗi 0
+python -m src.chunking                 # results/chunks_A.jsonl, chunks_B.jsonl
+python -m src.run                      # embed + pgvector + benchmark A/B/C -> trace.jsonl, run_summary.json
+python scripts/make_audit.py           # sinh bảng audit trống results/audit_*_blank.md; nhãn đã chấm ở results/audit_*.md
+```
+
+`starter/results/embedding_cache.json` chứa sẵn vector: chạy lại `src.run` không gọi API (key vẫn cần có trong `.env` để khởi tạo client). Model `gemini-embedding-001`, 768 chiều, chi phí 0 (free tier, giới hạn 100 text/phút).

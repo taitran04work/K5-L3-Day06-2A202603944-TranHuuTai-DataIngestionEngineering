@@ -1,4 +1,4 @@
 strategy,chunking,chunk_size,overlap,metadata,filter,vectorizer,hypothesis,dev_hit1,dev_hit3,test_hit1,test_hit3,notes
-A,,,,,,,,,,,,
-B,,,,,,,,,,,,
-C,,,,,,,,,,,,
+A,fixed_size (ký tự),500,50,"document_id, source, page/page_id, section, chapter (theo unit)",không,gemini-embedding-001 768d (L2-norm),Chunk ngắn bắt chi tiết tốt nhưng dễ cắt evidence giữa 2 chunk,6/15,11/15,2/5,4/5,"130 chunks; 4 câu dev đúng trang nhưng evidence bị tách"
+B,"by_paragraph (gom đoạn; đoạn dài cắt theo câu; bảng theo dòng)",max 1000,0,"như A + section/chapter cập nhật theo heading trong unit",không,gemini-embedding-001 768d (L2-norm),Giữ trọn đoạn → coherence và Hit@1 tốt hơn A,9/15,12/15,1/5,4/5,"80 chunks; có chunk chỉ chứa heading (min 21 ký tự); miss dòng bảng trong chunk dài (q12 q15 q18)"
+C,by_paragraph (dùng chung index B),max 1000,0,như B,"chapter = giá trị nêu trong câu hỏi (chỉ câu có filter; câu khác chạy không filter)",gemini-embedding-001 768d (L2-norm),Lọc chapter loại nhiễu khác chương → tăng thứ hạng câu có phạm vi,9/15,12/15,2/5,4/5,"Khác B duy nhất ở filter; chọn trên dev (B=C, C có filter tuân thủ 4/4); q17 lên top-1 nhờ filter"
