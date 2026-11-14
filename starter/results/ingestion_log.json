@@ -1,0 +1,15 @@
+[
+  {
+    "event": "stop_at_references",
+    "block": 212
+  },
+  {
+    "event": "tail_merged",
+    "chars": 844
+  },
+  {
+    "event": "loaded",
+    "document_id": "aispeis-r1-v1.3",
+    "units": 31
+  }
+]

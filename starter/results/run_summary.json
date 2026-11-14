@@ -1,0 +1,95 @@
+{
+  "embedding_model": "gemini-embedding-001",
+  "dimensions": 768,
+  "A": {
+    "chunking": "fixed_size",
+    "size": 500,
+    "overlap": 50,
+    "filter": false
+  },
+  "B": {
+    "chunking": "by_paragraph",
+    "max_size": 1000,
+    "filter": false
+  },
+  "C": {
+    "chunking": "by_paragraph (dùng index B)",
+    "max_size": 1000,
+    "filter": "chapter khi câu hỏi có filter"
+  },
+  "top_k": 3,
+  "chunks": {
+    "A": 130,
+    "B": 80
+  },
+  "embedding_api_texts_this_run": 230,
+  "load_seconds": {
+    "A": 87.48,
+    "B": 44.8
+  },
+  "total_seconds": 202.1,
+  "cost": "0 (Gemini free tier)",
+  "C_filter_respected": "4/4",
+  "summary": [
+    {
+      "strategy": "A",
+      "split": "dev",
+      "n": 15,
+      "hit@1": "6/15",
+      "hit@3": "11/15",
+      "hit@1_pct": 40.0,
+      "hit@3_pct": 73.3,
+      "evidence_split": 4
+    },
+    {
+      "strategy": "A",
+      "split": "test",
+      "n": 5,
+      "hit@1": "2/5",
+      "hit@3": "4/5",
+      "hit@1_pct": 40.0,
+      "hit@3_pct": 80.0,
+      "evidence_split": 1
+    },
+    {
+      "strategy": "B",
+      "split": "dev",
+      "n": 15,
+      "hit@1": "9/15",
+      "hit@3": "12/15",
+      "hit@1_pct": 60.0,
+      "hit@3_pct": 80.0,
+      "evidence_split": 1
+    },
+    {
+      "strategy": "B",
+      "split": "test",
+      "n": 5,
+      "hit@1": "1/5",
+      "hit@3": "4/5",
+      "hit@1_pct": 20.0,
+      "hit@3_pct": 80.0,
+      "evidence_split": 0
+    },
+    {
+      "strategy": "C",
+      "split": "dev",
+      "n": 15,
+      "hit@1": "9/15",
+      "hit@3": "12/15",
+      "hit@1_pct": 60.0,
+      "hit@3_pct": 80.0,
+      "evidence_split": 1
+    },
+    {
+      "strategy": "C",
+      "split": "test",
+      "n": 5,
+      "hit@1": "2/5",
+      "hit@3": "4/5",
+      "hit@1_pct": 40.0,
+      "hit@3_pct": 80.0,
+      "evidence_split": 0
+    }
+  ]
+}
